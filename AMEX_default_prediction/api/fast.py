@@ -53,5 +53,6 @@ app = FastAPI()
 
 @app.get("/")
 def root():
-    return {'output': 'defaulter',
+    return {'customer_ID':'abc123customer',
+            'output': 'defaulter',
             'probability': '0.999'}
