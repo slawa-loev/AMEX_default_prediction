@@ -24,6 +24,11 @@ s3fs
 fastapi
 uvicorn
 
+#google cloud
+webapp2
+cloudstorage
+google.appengine.api
+
 # utilities
 six>=1.14
 joblib
