@@ -19,7 +19,7 @@ yapf
 # API
 gcsfs
 google-cloud-storage
-mlflow
+# mlflow
 s3fs
 fastapi
 uvicorn
