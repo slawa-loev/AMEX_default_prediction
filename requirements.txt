@@ -23,6 +23,8 @@ google-cloud-storage
 s3fs
 fastapi
 uvicorn
+json
+pickle
 
 #google cloud
 webapp2
