@@ -19,10 +19,12 @@ yapf
 # API
 gcsfs
 google-cloud-storage
-mlflow
+# mlflow
 s3fs
 fastapi
 uvicorn
+json
+pickle
 
 #google cloud
 webapp2
