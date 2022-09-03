@@ -6,6 +6,8 @@ load and validate the environment variables in the `.env`
 import os
 import numpy as np
 
+CAT_VARS = os.environ.get("CAT_VARS")
+
 DATASET_SIZE = os.environ.get("DATASET_SIZE")
 VALIDATION_DATASET_SIZE = os.environ.get("VALIDATION_DATASET_SIZE")
 CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE"))
