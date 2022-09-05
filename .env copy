@@ -1,0 +1,51 @@
+CAT_VARS = ['B_30',
+            'B_38',
+            'D_114',
+            'D_116',
+            'D_117',
+            'D_120',
+            'D_126',
+            'D_63',
+            'D_64',
+            'D_66',
+            'D_68']
+
+## EXAMPLE
+
+LOCAL_DATA_PATH=~/.lewagon/mlops/data
+LOCAL_REGISTRY_PATH=~/.lewagon/mlops/training_outputs
+
+DATASET_SIZE=10k
+VALIDATION_DATASET_SIZE=10k
+CHUNK_SIZE=6000
+
+DATA_SOURCE=local
+MODEL_TARGET=local
+
+# GCP Project
+PROJECT=single-arcana-360309
+REGION=europe-west1
+
+# Cloud Storage
+BUCKET_NAME=le-wagon-bucket
+BLOB_LOCATION=data
+
+# BigQuery (multi region must be EU since le wagon cloud storage public datasets are in EU)
+MULTI_REGION=EU
+DATASET=taxifare_dataset
+
+# Compute Engine
+INSTANCE=taxi-instance
+
+# Model Lifecycle
+MLFLOW_TRACKING_URI=https://mlflow.lewagon.ai
+MLFLOW_EXPERIMENT=taxifare_experiment_code-rep0
+MLFLOW_MODEL_NAME=taxifare_code-rep0
+
+PREFECT_BACKEND=development
+PREFECT_FLOW_NAME=taxifare_lifecycle_code-rep0
+PREFECT_LOG_LEVEL=WARNING
+
+# API
+
+#IMAGE=
