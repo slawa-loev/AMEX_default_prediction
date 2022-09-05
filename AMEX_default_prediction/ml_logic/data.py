@@ -14,8 +14,86 @@ import pandas as pd
 
 import pandas as pd
 import numpy as np
+from tqdm.auto import tqdm
+import itertools
+
+import gc
 
 from AMEX_default_prediction.ml_logic.params import CAT_VARS
+
+# TODO: build aggregate function?
+
+# ====================================================
+# Get the difference
+# ====================================================
+def get_difference(data, num_features):
+    df1 = []
+    customer_ids = []
+    for customer_id, df in tqdm(data.groupby(['customer_ID'])):
+        # Get the differences
+        diff_df1 = df[num_features].diff(1).iloc[[-1]].values.astype(np.float32)
+        # Append to lists
+        df1.append(diff_df1)
+        customer_ids.append(customer_id)
+    # Concatenate
+    df1 = np.concatenate(df1, axis = 0)
+    # Transform to dataframe
+    df1 = pd.DataFrame(df1, columns = [col + '_diff1' for col in df[num_features].columns])
+    # Add customer id
+    df1['customer_ID'] = customer_ids
+    return df1
+
+
+def get_feature_data():
+
+    #return pd.read_csv('/content/data/train_data.csv')
+
+    pass
+
+def get_label_data():
+    # return pd.read_csv('/content/data/train_labels.csv')
+    pass
+
+## DATA AGGREGATION AND FEATURE ENGINEERING ##
+## TODO:
+# 1. build preprocessor that works well with this
+# 2. add other stpes from https://www.kaggle.com/code/ragnar123/amex-lgbm-dart-cv-0-7977
+# 3. Add perhaps some feature engineering from https://www.kaggle.com/code/swimmy/tuffline-amex-anotherfeaturelgbm
+def data_agg(): ## pass raw data
+
+    df = get_feature_data()
+
+    features = df.drop(['customer_ID', 'S_2'], axis = 1).columns.to_list() # get all feature names, except customer_ID and dates
+
+    ## numerical features aggregation
+    num_features = [feature for feature in features if feature not in CAT_VARS] ## get num features
+
+    train_num_agg = df.groupby("customer_ID")[num_features].agg(['mean', 'std', 'min', 'max', 'last']) # give summary statistics for each numerical feature
+    train_num_agg.columns = ['_'.join(x) for x in train_num_agg.columns] # join the column name tuples to a single name
+    train_num_agg.reset_index(inplace = True) # get the customer_ID in as a column again and reset index
+
+    ## get lag differnece data
+
+    train_diff = get_difference(df, num_features)
+
+    ## categorical feature aggregation
+    train_cat_agg = df.groupby("customer_ID")[cat_vars].agg(['count', 'last', 'nunique']) # give summary statistics for each categrocial feature
+    train_cat_agg.columns = ['_'.join(x) for x in train_cat_agg.columns] # join the column name tuples to a single name
+    train_cat_agg.reset_index(inplace = True) # get the customer_ID in as a column again and reset index
+
+    ## get label data
+
+    train_labels = get_label_data()
+
+    ## merge dfs
+
+    df_agg = train_num_agg.merge(train_cat_agg, how = 'inner', on = 'customer_ID').merge(train_diff, how = 'inner', on = 'customer_ID').merge(train_labels, how = 'inner', on = 'customer_ID')
+
+    del train_num_agg, train_cat_agg, train_diff, train_labels
+    gc.collect()
+
+    return df_agg
+
 
 def alt_nan_imp(X):
 
