@@ -87,11 +87,18 @@ def feat_eng(df): ## pass raw data
 
     return df
 
-def data_agg():
+def data_agg(feat_eng=True):
 
     df = get_feature_data()
 
-    df = feat_eng(df)
+    ## get label data
+
+    train_labels = get_label_data()
+
+
+    ## add feature enginering if feat_eng True
+    if feat_eng:
+        df = feat_eng(df)
 
     features = df.drop(['customer_ID', 'S_2'], axis = 1).columns.to_list() # get all feature names, except customer_ID and dates
 
@@ -124,9 +131,7 @@ def data_agg():
     train_cat_agg.columns = ['_'.join(x) for x in train_cat_agg.columns] # join the column name tuples to a single name
     train_cat_agg.reset_index(inplace = True) # get the customer_ID in as a column again and reset index
 
-    ## get label data
 
-    train_labels = get_label_data()
 
     ## merge dfs
 
