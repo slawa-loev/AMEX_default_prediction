@@ -15,7 +15,10 @@ from AMEX_default_prediction.ml_logic.params import CAT_VARS
 def amex_metric(y_true: pd.DataFrame, y_pred: pd.DataFrame) -> float:
 
     ## TWEAK
-    y_true = pd.DataFrame(y_true.reset_index(drop=True))
+
+    y_pred = pd.Series(y_pred, index=y_true.index)
+
+    y_true = pd.DataFrame(y_true)
     y_pred = pd.DataFrame(y_pred)
 
     y_true = y_true.rename(columns={y_true.columns[0]:'target'})
