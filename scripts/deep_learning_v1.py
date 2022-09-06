@@ -190,14 +190,17 @@ preprocessor = ColumnTransformer([
     ('str_pip', str_pipe, str_vars)],
     remainder='drop' ## all columns not in num_vars and red_cat_vars are dropped.
 )
-
 X_pp = pd.DataFrame(preprocessor.fit_transform(X_red))
 
+X_pp['customer_ID'] = X_red['customer_ID']
+X_avg_pp = X_pp.groupby('customer_ID').mean()
+y_ID = pd.DataFrame(y)
+y_ID['customer_ID'] = X_red['customer_ID']
+y_unique = y_ID.groupby('customer_ID').mean().astype(int) ## actually, this data is just in train_labels
 
 
-
-X_train, X_test, y_train, y_test = train_test_split(X_pp,
-                                                    y,
+X_train, X_test, y_train, y_test = train_test_split(X_avg_pp,
+                                                    y_unique,
                                                     test_size=0.30,
                                                     random_state=42)
 
