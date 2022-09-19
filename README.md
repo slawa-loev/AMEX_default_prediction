@@ -1,6 +1,6 @@
 # Data analysis
 - Document here the project: AMEX_default_prediction
-- Description: the project is a graduation project of Le wagon data science program. It aims to use the history data of American express to predict who might default when any customers want to apply a credit card in American express. You can predict whether a customer might default [here](https://amexoracle.herokuapp.com/).
+- Description: the project is a graduation project of Le wagon data science program. **It aims to use the history data of American express to predict who might default when any customers want to apply a credit card in American express.** You can predict whether a customer might default [here](https://amexoracle.herokuapp.com/).
 
 - Data Source: [American Express - Default Prediction](https://www.kaggle.com/competitions/amex-default-prediction/data)
 
